@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shahiba Khan – AI & Full-Stack Developer</title>
+<style>
+*{margin:0;box-sizing:border-box}
+body{background:#040714;color:#e8f0ff;font-family:"Segoe UI",system-ui,sans-serif;height:1000vh}
+canvas{position:fixed;inset:0;z-index:0}
+nav{position:fixed;top:16px;right:20px;z-index:5;display:flex;gap:18px;padding:10px 22px;border-radius:40px;border:1px solid rgba(90,209,255,.5);background:rgba(4,7,20,.55);backdrop-filter:blur(10px)}
+nav a{color:#e8f0ff;text-decoration:none;font-size:13px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.panel{position:fixed;z-index:2;left:5vw;top:50%;transform:translateY(-50%);width:min(440px,90vw);padding:24px;border:1px solid rgba(90,209,255,.35);border-radius:16px;background:rgba(4,7,20,.62);backdrop-filter:blur(12px);opacity:0;pointer-events:none;line-height:1.55}
+.panel h2{font-size:26px;margin-bottom:6px}
+.panel h3{font-size:14px;color:#5ad1ff;font-weight:600;margin:14px 0 6px}
+.panel p,.panel li{color:#b8c6ec;font-size:14.5px}
+.panel ul{padding-left:18px}
+.tech{margin-top:12px;font-size:13px;color:#b6ff5a}
+.hero{background:none;border:none;backdrop-filter:none;top:16vh;transform:none;width:min(900px,92vw)}
+.hero h1{font-size:clamp(44px,10vw,120px);line-height:.92;letter-spacing:-.02em}
+.hero p{margin-top:16px;font-size:clamp(14px,2vw,18px);max-width:46ch}
+.bar{margin:8px 0;font-size:13.5px;display:flex;align-items:center;gap:10px}
+.bar b{width:110px;font-weight:500}
+.bar i{flex:1;height:6px;border-radius:6px;background:rgba(143,163,214,.25);overflow:hidden}
+.bar i span{display:block;height:100%;background:linear-gradient(90deg,#5ad1ff,#7a5cff)}
+.bar em{width:36px;font-style:normal;color:#8fa3d6;text-align:right}
+.end{left:0;right:0;top:auto;bottom:10vh;transform:none;width:auto;margin:auto;max-width:560px;text-align:center}
+.end a{color:#e8f0ff;border:1px solid #5ad1ff;border-radius:40px;padding:12px 28px;text-decoration:none;display:inline-block;margin-top:12px;box-shadow:0 0 24px -6px #5ad1ff}
+@media(max-width:700px){.panel:not(.hero):not(.end){top:auto;bottom:4vh;transform:none;left:4vw;right:4vw;width:auto;max-height:48vh;overflow:auto}}
+</style>
+</head>
+<body>
+<nav><a id="w">Work</a><a id="c">Contact</a></nav>
+<div id="ui"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ============ YOUR CONTENT ============ */
+const me = {
+  name:'Shahiba Khan', role:'BCA Student • AI/ML Enthusiast • Aspiring Full-Stack Developer',
+  loc:'Prayagraj, Uttar Pradesh', email:'shahiba422@gmail.com',
+  about:'BCA student passionate about AI, web development and building practical technology projects. Interested in creating modern, useful and visually engaging digital experiences.',
+  langs:'English, Hindi'
+};
+const projects = [
+ {t:'AI Phishing\nDetection Platform', tag:'AI • SECURITY',
+  d:['URL and email analysis','Risk classification: Low / Medium / High','Scan history and statistics dashboard','Authentication and user-specific scan records'],
+  tech:'Next.js, React, TypeScript, Tailwind CSS, Supabase'},
+ {t:'Cyber Security\nAwareness Game', tag:'GAME • CSAG',
+  d:['Multiple levels: phishing, passwords, safe browsing, email safety, social engineering, data protection, malware, public Wi-Fi','XP, lives, timer, levels and rewards','Backend + SQL integration (my role: frontend)'],
+  tech:'HTML, CSS, JavaScript, SQL'},
+ {t:'Cloud Drive\nStorage', tag:'CLOUD',
+  d:['Cloud-based file storage','Upload, manage and access files'],
+  tech:'Web technologies / cloud storage'},
+ {t:'Cinematic\nPortfolio', tag:'WEB • DESIGN',
+  d:['Modern cinematic design','Animated sections and project showcase','Responsive layout'],
+  tech:'Next.js, React, Tailwind CSS, Framer Motion, TypeScript'},
+ {t:'Dashboard', tag:'UI • DATA',
+  d:['Modern dashboard interface','Data / statistics-focused UI','Responsive web design'],
+  tech:'Web technologies'}
+];
+const skills = [['HTML',90],['CSS',85],['JavaScript',80],['React',75],['Next.js',70],['TypeScript',65],['Python',75],['Git & GitHub',80]];
+const certs = ['Google Cloud — Trust & Security','EDUCBA — Personality Development','Simplilearn — SQL Analytics & BI on Databricks','HP LIFE — Professional Networking for Career Growth','Simplilearn — Introduction to Cloud Computing'];
+const focus = ['AI / Machine Learning','Full-Stack Web Development','Modern Web Technologies','Cybersecurity','Building practical AI-powered apps'];
+
+/* ============ HTML PANELS ============ */
+const li = a => '<ul>'+a.map(x=>`<li>${x}</li>`).join('')+'</ul>';
+const panels = [];
+function add(html, a, b, cls=''){ const e=document.createElement('div'); e.className='panel '+cls; e.innerHTML=html; document.getElementById('ui').appendChild(e); panels.push({e,a,b}); }
+add(`<h1>SHAHIBA<br>KHAN</h1><p>${me.role}<br>${me.loc}</p>`, -1, .09, 'hero');
+add(`<h2>About</h2><p>${me.about}</p><h3>Education</h3><p><b>Bachelor of Computer Applications (BCA)</b><br>Ewing Christian College (ECC), Prayagraj — final year</p><h3>Languages</h3><p>${me.langs}</p>`, .09, .2);
+projects.forEach((p,i)=> add(`<h2>${p.t.replace('\n',' ')}</h2><p>${li(p.d)}</p><div class="tech">${p.tech}</div>`, .2+i*.1, .3+i*.1));
+add(`<h2>Skills</h2>`+skills.map(s=>`<div class="bar"><b>${s[0]}</b><i><span style="width:${s[1]}%"></span></i><em>${s[1]}%</em></div>`).join(''), .7, .8);
+add(`<h2>Certificates</h2>${li(certs)}<h3>Career focus</h3>${li(focus)}`, .8, .9);
+add(`<h2>Let's work together</h2><p>${me.loc}</p><a href="mailto:${me.email}">${me.email}</a>`, .9, 2, 'end');
+
+/* ============ 3D SCENE ============ */
+const H = 60;
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x040714, 0.035);
+const cam = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 200);
+const ren = new THREE.WebGLRenderer({antialias:true});
+ren.setPixelRatio(Math.min(devicePixelRatio, 2));
+ren.setSize(innerWidth, innerHeight);
+document.body.appendChild(ren.domElement);
+const world = new THREE.Group(); scene.add(world);
+
+// spine
+const vMat = new THREE.MeshBasicMaterial({color:0x5ad1ff, wireframe:true, transparent:true, opacity:.55});
+const sMat = new THREE.MeshBasicMaterial({color:0x7a5cff, wireframe:true, transparent:true, opacity:.6});
+for (let i=0;i<95;i++){
+  const v = new THREE.Mesh(new THREE.CylinderGeometry(.9,1.1,.45,8), vMat);
+  v.position.y = -i*.68+3; v.scale.setScalar(1+Math.sin(i*.25)*.18);
+  const s = new THREE.Mesh(new THREE.BoxGeometry(.15,.35,1.4), sMat);
+  s.position.set(0, v.position.y, -1.1);
+  const g = new THREE.Group(); g.add(v,s); g.rotation.y = i*.35; world.add(g);
+}
+
+// project slides
+function tex(title, tag, hue){
+  const c=document.createElement('canvas'); c.width=512; c.height=340; const x=c.getContext('2d');
+  const g=x.createLinearGradient(0,0,512,340);
+  g.addColorStop(0,`hsla(${hue},80%,45%,.8)`); g.addColorStop(1,`hsla(${hue+60},70%,20%,.8)`);
+  x.fillStyle=g; x.fillRect(0,0,512,340);
+  x.strokeStyle='rgba(180,230,255,.7)'; x.lineWidth=4; x.strokeRect(4,4,504,332);
+  x.fillStyle='#dff6ff'; x.font='600 22px Segoe UI'; x.fillText(tag,28,46);
+  x.font='700 44px Segoe UI'; const L=title.split('\n');
+  L.forEach((l,i)=>x.fillText(l,28,300-(L.length-1-i)*52));
+  return new THREE.CanvasTexture(c);
+}
+const SPIN = Math.PI*5;
+projects.forEach((p,i)=>{
+  const pr = .25+i*.1;                              // scroll position where this slide is centered
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(4.4,2.9),
+    new THREE.MeshBasicMaterial({map:tex(p.t,p.tag,190+i*30), transparent:true, side:THREE.DoubleSide}));
+  const a = Math.PI/2 - .55 + pr*SPIN, r = 5.2;     // lands on the right side, facing camera
+  m.position.set(Math.cos(a)*r, -pr*(H+4)+1.5, Math.sin(a)*r);
+  m.lookAt(Math.cos(a)*r*2, m.position.y, Math.sin(a)*r*2);
+  world.add(m);
+});
+
+// particles
+const N=3500, pos=new Float32Array(N*3);
+for(let i=0;i<N;i++){const a=Math.random()*6.283,r=2+Math.random()*14;
+  pos[i*3]=Math.cos(a)*r; pos[i*3+1]=5-Math.random()*(H+15); pos[i*3+2]=Math.sin(a)*r;}
+const pg=new THREE.BufferGeometry(); pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+const dust=new THREE.Points(pg,new THREE.PointsMaterial({color:0x9fe8ff,size:.07,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}));
+world.add(dust);
+
+// ending: looping ribbon + ring
+const pts=[]; for(let t=0;t<6.283;t+=.05) pts.push(new THREE.Vector3(Math.cos(t)*4,Math.sin(2*t)*2.2,Math.sin(t)*2));
+const endG=new THREE.Group();
+endG.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x8fd8ff})),
+         new THREE.Mesh(new THREE.TorusGeometry(1.4,.06,16,80),new THREE.MeshBasicMaterial({color:0xb6ff5a})));
+endG.position.y=-63; scene.add(endG);
+
+/* ============ SCROLL / LOOP ============ */
+let target=0, prog=0, mx=0, my=0;
+const max=()=>document.body.scrollHeight-innerHeight;
+addEventListener('scroll',()=>target=scrollY/max());
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5; my=e.clientY/innerHeight-.5;});
+addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();ren.setSize(innerWidth,innerHeight);});
+document.getElementById('w').onclick=()=>scrollTo({top:.2*max(),behavior:'smooth'});
+document.getElementById('c').onclick=()=>scrollTo({top:max(),behavior:'smooth'});
+
+function loop(t){
+  prog += (target-prog)*.06;
+  cam.position.set(cam.position.x+(mx*4-cam.position.x)*.05, -prog*(H+4)+2, 11);
+  cam.lookAt(0, cam.position.y-1-my*2, 0);
+  world.rotation.y = prog*SPIN;                    // the twirl
+  dust.rotation.y = t*.00003; endG.rotation.y = t*.0004;
+  panels.forEach(({e,a,b})=>{
+    const o=Math.max(0,Math.min((prog-a)/.02,(b-prog)/.02,1));
+    e.style.opacity=o; e.style.pointerEvents=o>.5?'auto':'none';
+  });
+  ren.render(scene,cam); requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
